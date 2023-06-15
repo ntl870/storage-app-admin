@@ -1,7 +1,6 @@
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { Button, Layout } from "antd";
 import { HeaderProfileIcon } from "./HeaderProfileIcon";
-import { SearchBar } from "./SearchBar";
 
 interface Props {
   collapsed: boolean;
@@ -18,7 +17,6 @@ export const AppHeader = ({ collapsed, setCollapsed }: Props) => {
           type="text"
           className="mr-4"
         />
-        <SearchBar />
       </div>
       <HeaderProfileIcon />
     </Layout.Header>

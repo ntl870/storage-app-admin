@@ -37,16 +37,13 @@ export const ProtectedLayout = ({ children, routes }: ProtectedLayoutProps) => {
           setCollapsed(broken);
         }}
       >
-        <div className="flex items-center p-4">
+        <div className="flex justify-center items-center p-4">
           <img
             id="logo"
             alt="CloudStorage logo"
             src={logo}
-            className="w-10 h-10 mr-1"
+            className="w-20 h-20 mr-1"
           />
-          <Typography.Title level={4} className="mb-0">
-            CloudStorage
-          </Typography.Title>
         </div>
         <Menu
           theme="light"
@@ -55,27 +52,6 @@ export const ProtectedLayout = ({ children, routes }: ProtectedLayoutProps) => {
           items={routes}
           onSelect={({ key }) => onSelectItem(key)}
         />
-        <div className="p-4 flex flex-col justify-center">
-          <Progress
-            percent={
-              (covertBytesToGiB(storageUsed ?? 0) * 100) / (maxStorage ?? 0)
-            }
-            size="small"
-            showInfo={false}
-          />
-          <Typography.Text>{`${covertBytesToGiB(storageUsed ?? 0).toFixed(
-            2
-          )} GB used of ${maxStorage} GB`}</Typography.Text>
-          <Button
-            onClick={() => navigate("/buy-storage")}
-            type="primary"
-            shape="round"
-            size="middle"
-            className="mt-2"
-          >
-            Buy more storage
-          </Button>
-        </div>
       </Sider>
       <Layout className="ml-300px min-h-screen overflow-y-hidden">
         <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />

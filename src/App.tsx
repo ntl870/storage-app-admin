@@ -5,7 +5,6 @@ import { PrivateRoute } from "./routes/PrivateRoute";
 import Login from "./pages/Login/Login";
 import "antd/dist/reset.css";
 import "./index.css";
-import "./configs/theme/index.less";
 import { AlertProvider } from "./context/AlertContext";
 import SignUp from "@pages/SignUp/SignUp";
 

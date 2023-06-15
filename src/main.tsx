@@ -8,13 +8,10 @@ import {
   ApolloLink,
   createHttpLink,
 } from "@apollo/client";
-import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter } from "react-router-dom";
 import { useLocalStorage } from "./utils/tools";
 import { ConfigProvider } from "antd";
-
-const uploadLink = createUploadLink({ uri: import.meta.env.VITE_API_ENDPOINT });
 
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_API_ENDPOINT,
@@ -33,7 +30,7 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: authLink.concat(ApolloLink.from([uploadLink, httpLink])),
+  link: authLink.concat(ApolloLink.from([httpLink])),
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
