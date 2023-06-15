@@ -1,0 +1,8 @@
+query getStarredFiles {
+  getStarredFiles {
+    ID
+    name
+    url
+    fileType
+  }
+}
