@@ -111,6 +111,7 @@ export type Mutation = {
   starFolder: Scalars['String'];
   unstarFile: Scalars['String'];
   unstarFolder: Scalars['String'];
+  updateComputerStoragePath: Computer;
   updateUser: User;
   uploadFile: File;
   uploadFolder: Scalars['String'];
@@ -304,6 +305,12 @@ export type MutationUnstarFolderArgs = {
 };
 
 
+export type MutationUpdateComputerStoragePathArgs = {
+  macAddress: Scalars['String'];
+  storagePath: Scalars['String'];
+};
+
+
 export type MutationUpdateUserArgs = {
   input: UpdateUserPayload;
 };
@@ -371,6 +378,7 @@ export type Query = {
   getUserTrashFiles: Array<File>;
   getUserTrashFolder: Array<Folder>;
   getUsersBySearchPagination: UserSearchPaginationResponse;
+  getUsersPagination: UserSearchPaginationResponse;
   searchFilesAndFolders: SearchFilesAndFoldersResponse;
 };
 
@@ -444,6 +452,12 @@ export type QueryGetUsersBySearchPaginationArgs = {
 };
 
 
+export type QueryGetUsersPaginationArgs = {
+  limit: Scalars['Float'];
+  page: Scalars['Float'];
+};
+
+
 export type QuerySearchFilesAndFoldersArgs = {
   search: Scalars['String'];
 };
@@ -485,6 +499,7 @@ export type User = {
 export type UserSearchPaginationResponse = {
   hasMore: Scalars['Boolean'];
   results: Array<User>;
+  total: Scalars['Float'];
 };
 
 
@@ -2511,6 +2526,7 @@ export const GetUsersBySearchPaginationDocument = gql`
       email
     }
     hasMore
+    total
   }
 }
     `;
@@ -2546,6 +2562,50 @@ export type GetUsersBySearchPaginationLazyQueryHookResult = ReturnType<typeof us
 export type GetUsersBySearchPaginationQueryResult = Apollo.QueryResult<GetUsersBySearchPaginationQuery, GetUsersBySearchPaginationQueryVariables>;
 export function refetchGetUsersBySearchPaginationQuery(variables: GetUsersBySearchPaginationQueryVariables) {
       return { query: GetUsersBySearchPaginationDocument, variables: variables }
+    }
+export const GetUsersPaginationDocument = gql`
+    query getUsersPagination($page: Float!, $limit: Float!) {
+  getUsersPagination(page: $page, limit: $limit) {
+    results {
+      ID
+      name
+      email
+    }
+    hasMore
+  }
+}
+    `;
+
+/**
+ * __useGetUsersPaginationQuery__
+ *
+ * To run a query within a React component, call `useGetUsersPaginationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersPaginationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUsersPaginationQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetUsersPaginationQuery(baseOptions: Apollo.QueryHookOptions<GetUsersPaginationQuery, GetUsersPaginationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersPaginationQuery, GetUsersPaginationQueryVariables>(GetUsersPaginationDocument, options);
+      }
+export function useGetUsersPaginationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersPaginationQuery, GetUsersPaginationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersPaginationQuery, GetUsersPaginationQueryVariables>(GetUsersPaginationDocument, options);
+        }
+export type GetUsersPaginationQueryHookResult = ReturnType<typeof useGetUsersPaginationQuery>;
+export type GetUsersPaginationLazyQueryHookResult = ReturnType<typeof useGetUsersPaginationLazyQuery>;
+export type GetUsersPaginationQueryResult = Apollo.QueryResult<GetUsersPaginationQuery, GetUsersPaginationQueryVariables>;
+export function refetchGetUsersPaginationQuery(variables: GetUsersPaginationQueryVariables) {
+      return { query: GetUsersPaginationDocument, variables: variables }
     }
 export const SearchFilesAndFoldersDocument = gql`
     query searchFilesAndFolders($search: String!) {
@@ -2980,7 +3040,15 @@ export type GetUsersBySearchPaginationQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersBySearchPaginationQuery = { getUsersBySearchPagination: { hasMore: boolean, results: Array<{ ID: string, name: string, email: string }> } };
+export type GetUsersBySearchPaginationQuery = { getUsersBySearchPagination: { hasMore: boolean, total: number, results: Array<{ ID: string, name: string, email: string }> } };
+
+export type GetUsersPaginationQueryVariables = Exact<{
+  page: Scalars['Float'];
+  limit: Scalars['Float'];
+}>;
+
+
+export type GetUsersPaginationQuery = { getUsersPagination: { hasMore: boolean, results: Array<{ ID: string, name: string, email: string }> } };
 
 export type SearchFilesAndFoldersQueryVariables = Exact<{
   search: Scalars['String'];

@@ -1,4 +1,4 @@
-import { DashboardFilled } from "@ant-design/icons";
+import { DashboardFilled, UserOutlined } from "@ant-design/icons";
 import loadable from "@loadable/component";
 
 export interface Route {
@@ -12,6 +12,8 @@ export interface Route {
 
 const DashboardPage = loadable(() => import("@pages/Dashboard"));
 
+const UserPage = loadable(() => import("@pages/User"));
+
 const routes: Route[] = [
   {
     path: "/",
@@ -20,5 +22,13 @@ const routes: Route[] = [
     element: <DashboardPage />,
     icon: <DashboardFilled />,
   },
+  {
+    path: "/users",
+    key: "/users",
+    label: "Users",
+    element: <UserPage />,
+    icon: <UserOutlined />,
+  },
 ];
+
 export default routes;

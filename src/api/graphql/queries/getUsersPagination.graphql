@@ -1,0 +1,10 @@
+query getUsersPagination($page: Float!, $limit: Float!) {
+  getUsersPagination(page: $page, limit: $limit) {
+    results {
+      ID
+      name
+      email
+    }
+    hasMore
+  }
+}
