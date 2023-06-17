@@ -21,14 +21,15 @@ const columns: ColumnsType<
     key: "name",
   },
   {
-    title: "email",
+    title: "Email",
     dataIndex: "email",
     key: "email",
   },
   {
     title: "Current Plan",
-    dataIndex: "currentPackage.detail",
+    dataIndex: "currentPackage",
     key: "currentPackage.detail",
+    render: (value) => value?.detail,
   },
 ];
 
@@ -81,9 +82,6 @@ const UserPage = () => {
         pagination={{
           defaultPageSize: 10,
           total: data?.getUsersBySearchPagination.total,
-        }}
-        expandable={{
-          expandedRowRender: (record) => <p>{record.email}</p>,
         }}
       />
     </div>

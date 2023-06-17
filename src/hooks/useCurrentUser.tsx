@@ -12,9 +12,9 @@ const useCurrentUser = () => {
     rootFolder: data?.getMe.rootFolder,
     rootFolderID: data?.getMe?.rootFolder?.ID,
     avatar: data?.getMe.avatar,
-    maxStorage: data?.getMe.currentPackage.maxStorage,
+    maxStorage: data?.getMe.currentPackage?.maxStorage,
     storageUsed: data?.getMe.storageUsed,
-    currentPackageID: data?.getMe.currentPackage.ID,
+    currentPackageID: data?.getMe.currentPackage?.ID,
     stripeCustomerID: data?.getMe.stripeCustomerID,
     currentPackage: data?.getMe.currentPackage,
   };

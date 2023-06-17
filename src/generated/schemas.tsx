@@ -370,6 +370,9 @@ export type Query = {
   getPeopleWithAccessToFolder: PeopleWithAccessResponse;
   getStarredFiles: Array<File>;
   getStarredFolders: Array<Folder>;
+  getStatisticPackages: Array<StatisticPackage>;
+  getStatisticTransactions: Array<StatisticTransaction>;
+  getSystemOverviews: SystemOverviews;
   getUserByID: User;
   getUserComputers: Array<Computer>;
   getUserFiles: Array<File>;
@@ -440,6 +443,12 @@ export type QueryGetPeopleWithAccessToFolderArgs = {
 };
 
 
+export type QueryGetStatisticTransactionsArgs = {
+  dateFrom: Scalars['String'];
+  dateTo: Scalars['String'];
+};
+
+
 export type QueryGetUserByIdArgs = {
   ID: Scalars['String'];
 };
@@ -467,6 +476,29 @@ export type SearchFilesAndFoldersResponse = {
   folders?: Maybe<Array<Folder>>;
 };
 
+export type StatisticPackage = {
+  packages_name: Scalars['String'];
+  total: Scalars['Float'];
+};
+
+export type StatisticTransaction = {
+  amount: Scalars['Float'];
+  date: Scalars['String'];
+};
+
+export type StoragePercentage = {
+  total: Scalars['Float'];
+  used: Scalars['Float'];
+};
+
+export type SystemOverviews = {
+  storagePercentage: StoragePercentage;
+  totalComputers: Scalars['Float'];
+  totalIncome: Scalars['Float'];
+  totalTransactions: Scalars['Float'];
+  totalUsers: Scalars['Float'];
+};
+
 export type UpdateUserPayload = {
   avatar: Scalars['String'];
   name: Scalars['String'];
@@ -487,8 +519,9 @@ export type User = {
   ID: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
   computers?: Maybe<Array<Computer>>;
-  currentPackage: Package;
+  currentPackage?: Maybe<Package>;
   email: Scalars['String'];
+  isAdmin?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   password: Scalars['String'];
   rootFolder?: Maybe<Folder>;
@@ -2234,6 +2267,128 @@ export type GetStarredFoldersQueryResult = Apollo.QueryResult<GetStarredFoldersQ
 export function refetchGetStarredFoldersQuery(variables?: GetStarredFoldersQueryVariables) {
       return { query: GetStarredFoldersDocument, variables: variables }
     }
+export const GetStatisticPackagesDocument = gql`
+    query getStatisticPackages {
+  getStatisticPackages {
+    total
+    packages_name
+  }
+}
+    `;
+
+/**
+ * __useGetStatisticPackagesQuery__
+ *
+ * To run a query within a React component, call `useGetStatisticPackagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStatisticPackagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStatisticPackagesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetStatisticPackagesQuery(baseOptions?: Apollo.QueryHookOptions<GetStatisticPackagesQuery, GetStatisticPackagesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetStatisticPackagesQuery, GetStatisticPackagesQueryVariables>(GetStatisticPackagesDocument, options);
+      }
+export function useGetStatisticPackagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStatisticPackagesQuery, GetStatisticPackagesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetStatisticPackagesQuery, GetStatisticPackagesQueryVariables>(GetStatisticPackagesDocument, options);
+        }
+export type GetStatisticPackagesQueryHookResult = ReturnType<typeof useGetStatisticPackagesQuery>;
+export type GetStatisticPackagesLazyQueryHookResult = ReturnType<typeof useGetStatisticPackagesLazyQuery>;
+export type GetStatisticPackagesQueryResult = Apollo.QueryResult<GetStatisticPackagesQuery, GetStatisticPackagesQueryVariables>;
+export function refetchGetStatisticPackagesQuery(variables?: GetStatisticPackagesQueryVariables) {
+      return { query: GetStatisticPackagesDocument, variables: variables }
+    }
+export const GetStatisticTransactionsDocument = gql`
+    query getStatisticTransactions($dateFrom: String!, $dateTo: String!) {
+  getStatisticTransactions(dateFrom: $dateFrom, dateTo: $dateTo) {
+    amount
+    date
+  }
+}
+    `;
+
+/**
+ * __useGetStatisticTransactionsQuery__
+ *
+ * To run a query within a React component, call `useGetStatisticTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStatisticTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStatisticTransactionsQuery({
+ *   variables: {
+ *      dateFrom: // value for 'dateFrom'
+ *      dateTo: // value for 'dateTo'
+ *   },
+ * });
+ */
+export function useGetStatisticTransactionsQuery(baseOptions: Apollo.QueryHookOptions<GetStatisticTransactionsQuery, GetStatisticTransactionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetStatisticTransactionsQuery, GetStatisticTransactionsQueryVariables>(GetStatisticTransactionsDocument, options);
+      }
+export function useGetStatisticTransactionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStatisticTransactionsQuery, GetStatisticTransactionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetStatisticTransactionsQuery, GetStatisticTransactionsQueryVariables>(GetStatisticTransactionsDocument, options);
+        }
+export type GetStatisticTransactionsQueryHookResult = ReturnType<typeof useGetStatisticTransactionsQuery>;
+export type GetStatisticTransactionsLazyQueryHookResult = ReturnType<typeof useGetStatisticTransactionsLazyQuery>;
+export type GetStatisticTransactionsQueryResult = Apollo.QueryResult<GetStatisticTransactionsQuery, GetStatisticTransactionsQueryVariables>;
+export function refetchGetStatisticTransactionsQuery(variables: GetStatisticTransactionsQueryVariables) {
+      return { query: GetStatisticTransactionsDocument, variables: variables }
+    }
+export const GetSystemOverviewsDocument = gql`
+    query getSystemOverviews {
+  getSystemOverviews {
+    totalUsers
+    totalTransactions
+    totalIncome
+    totalComputers
+    storagePercentage {
+      used
+      total
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetSystemOverviewsQuery__
+ *
+ * To run a query within a React component, call `useGetSystemOverviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSystemOverviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSystemOverviewsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSystemOverviewsQuery(baseOptions?: Apollo.QueryHookOptions<GetSystemOverviewsQuery, GetSystemOverviewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSystemOverviewsQuery, GetSystemOverviewsQueryVariables>(GetSystemOverviewsDocument, options);
+      }
+export function useGetSystemOverviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSystemOverviewsQuery, GetSystemOverviewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSystemOverviewsQuery, GetSystemOverviewsQueryVariables>(GetSystemOverviewsDocument, options);
+        }
+export type GetSystemOverviewsQueryHookResult = ReturnType<typeof useGetSystemOverviewsQuery>;
+export type GetSystemOverviewsLazyQueryHookResult = ReturnType<typeof useGetSystemOverviewsLazyQuery>;
+export type GetSystemOverviewsQueryResult = Apollo.QueryResult<GetSystemOverviewsQuery, GetSystemOverviewsQueryVariables>;
+export function refetchGetSystemOverviewsQuery(variables?: GetSystemOverviewsQueryVariables) {
+      return { query: GetSystemOverviewsDocument, variables: variables }
+    }
 export const GetUserComputersDocument = gql`
     query getUserComputers {
   getUserComputers {
@@ -2524,6 +2679,11 @@ export const GetUsersBySearchPaginationDocument = gql`
       ID
       name
       email
+      currentPackage {
+        ID
+        detail
+        maxStorage
+      }
     }
     hasMore
     total
@@ -2975,7 +3135,7 @@ export type GetFolderDetailQuery = { getFolderDetail: { ID: string, name: string
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getMe: { ID: string, name: string, email: string, avatar?: string | null, storageUsed: number, stripeCustomerID: string, rootFolder?: { ID: string } | null, currentPackage: { ID: number, maxStorage: number, name: string, detail: string } } };
+export type GetMeQuery = { getMe: { ID: string, name: string, email: string, avatar?: string | null, storageUsed: number, stripeCustomerID: string, rootFolder?: { ID: string } | null, currentPackage?: { ID: number, maxStorage: number, name: string, detail: string } | null } };
 
 export type GetPeopleWithAccessToFileQueryVariables = Exact<{
   fileID: Scalars['String'];
@@ -3000,6 +3160,24 @@ export type GetStarredFoldersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetStarredFoldersQuery = { getStarredFolders: Array<{ ID: string, name: string, path: string }> };
+
+export type GetStatisticPackagesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetStatisticPackagesQuery = { getStatisticPackages: Array<{ total: number, packages_name: string }> };
+
+export type GetStatisticTransactionsQueryVariables = Exact<{
+  dateFrom: Scalars['String'];
+  dateTo: Scalars['String'];
+}>;
+
+
+export type GetStatisticTransactionsQuery = { getStatisticTransactions: Array<{ amount: number, date: string }> };
+
+export type GetSystemOverviewsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSystemOverviewsQuery = { getSystemOverviews: { totalUsers: number, totalTransactions: number, totalIncome: number, totalComputers: number, storagePercentage: { used: number, total: number } } };
 
 export type GetUserComputersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3040,7 +3218,7 @@ export type GetUsersBySearchPaginationQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersBySearchPaginationQuery = { getUsersBySearchPagination: { hasMore: boolean, total: number, results: Array<{ ID: string, name: string, email: string }> } };
+export type GetUsersBySearchPaginationQuery = { getUsersBySearchPagination: { hasMore: boolean, total: number, results: Array<{ ID: string, name: string, email: string, currentPackage?: { ID: number, detail: string, maxStorage: number } | null }> } };
 
 export type GetUsersPaginationQueryVariables = Exact<{
   page: Scalars['Float'];

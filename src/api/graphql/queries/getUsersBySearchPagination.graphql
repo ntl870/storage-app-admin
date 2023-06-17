@@ -8,11 +8,11 @@ query getUsersBySearchPagination(
       ID
       name
       email
-      # currentPackage {
-      #   ID
-      #   detail
-      #   maxStorage
-      # }
+      currentPackage {
+        ID
+        detail
+        maxStorage
+      }
     }
     hasMore
     total

@@ -1,0 +1,6 @@
+query getStatisticPackages {
+  getStatisticPackages {
+    total
+    packages_name
+  }
+}

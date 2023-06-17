@@ -1,0 +1,12 @@
+query getSystemOverviews {
+  getSystemOverviews {
+    totalUsers
+    totalTransactions
+    totalIncome
+    totalComputers
+    storagePercentage {
+      used
+      total
+    }
+  }
+}

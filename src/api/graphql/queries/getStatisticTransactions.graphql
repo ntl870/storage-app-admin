@@ -1,0 +1,6 @@
+query getStatisticTransactions($dateFrom: String!, $dateTo: String!) {
+  getStatisticTransactions(dateFrom: $dateFrom, dateTo: $dateTo) {
+    amount
+    date
+  }
+}
